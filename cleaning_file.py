@@ -1,6 +1,7 @@
-import re
+# extract the abstract and body-text text from all json files in a folder
+# clean up before analysis
+
 import os
-import pandas
 import json
 import numpy
 import string
@@ -8,7 +9,6 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
-from nltk.stem.snowball import SnowballStemmer
 
 # some functions setting up
 table = str.maketrans('', '' ,string.punctuation)

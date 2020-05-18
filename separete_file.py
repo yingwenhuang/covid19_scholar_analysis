@@ -1,17 +1,10 @@
-import re
+# move files from one folder to another one
 import os
-import pandas
-import json
 import numpy
 import string
-import nltk
 import shutil
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
-from nltk.stem.snowball import SnowballStemmer
 
-# read every json file in the folder
+# read every file in the folder
 path_to_json = 'pdf_json/'
 json_files = [jf for jf in os.listdir(path_to_json)]
 i = 0
