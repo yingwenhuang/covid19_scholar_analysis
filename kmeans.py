@@ -57,6 +57,7 @@ matrix = matrix.T
 
 f_list = f_list[2:]
 l = len(f_list)/2
+l = int(l)
 f_list = f_list.reshape([l, 2])
 
 # index need to be changed 
