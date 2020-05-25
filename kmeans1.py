@@ -26,7 +26,7 @@ with open(path, 'r') as file:
 path = 'temp3/comm_use_subset_pdf/'
 file_list = [f for f in os.listdir(path) if f.endswith('.csv')]
 
-matrix = numpy.zeros([len(dictionary), len(file_list)])
+matrix = csr_matrix([len(dictionary), len(file_list)])
 i = 0
 f_list = numpy.zeros(2)
 
@@ -42,7 +42,7 @@ for index, f in enumerate(file_list):
     d = dict(zip(unique, counts))
     for key, value in d.items():
         j = numpy.where(dictionary == key)
-        matrix[j[0], i] += value
+        matrix[j[0], i] = value
 
     i += 1
 
@@ -56,8 +56,6 @@ f_list = f_list.reshape([l, 2])
 # index need to be changed 
 numpy.savetxt('comm_use_subset_pdf_index.csv', f_list, fmt = '%s', delimiter = ';')
 
-# transfer to sparse matrix
-matrix_csr = csr_matrix(matrix)
 # transfer to Tfidf matrix
 transformer = TfidfTransformer()
 matrix_tfidf = transformer.fit_transform(matrix_csr)
