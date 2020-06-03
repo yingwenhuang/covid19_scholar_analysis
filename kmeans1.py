@@ -3,31 +3,32 @@ import os
 import pandas
 import json
 import numpy
+import scipy
 import string
 import nltk
 import csv
+import joblib
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk.stem.snowball import SnowballStemmer
 from scipy.sparse import csr_matrix
+from scipy.sparse import lil_matrix
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.cluster import KMeans
-from sklearn.externals import joblib
 
-path = 'temp3/comm_use_subset_pdf_vocabulary.csv'
+path = '../comm_use_subset_pdf_vocabulary.csv'
 with open(path, 'r') as file:
     fileReader = csv.reader(file, delimiter = ';')
     dictionary = numpy.array(list(fileReader)).astype(str)
     
-# contruct a word-count matrix
-# get a list of all files in the certain folder
-# path may need to be changed
-path = 'temp3/comm_use_subset_pdf/'
+### change file path
+path = '../comm_use_subset_pdf/comm_use_subset_pdf10'
 file_list = [f for f in os.listdir(path) if f.endswith('.csv')]
 
-matrix = numpy.zeros([len(dictionary), len(file_list)])
-i = 0
+matrix = lil_matrix((len(dictionary), len(file_list)))
+### change index
+i = 9900
 f_list = numpy.zeros(2)
 
 for index, f in enumerate(file_list):
@@ -42,31 +43,22 @@ for index, f in enumerate(file_list):
     d = dict(zip(unique, counts))
     for key, value in d.items():
         j = numpy.where(dictionary == key)
-        matrix[j[0], i] += value
+        ### change index
+        matrix[j[0], i-9900] = value
 
     i += 1
 
 print(matrix)
+
+matrix = csr_matrix(matrix)
+### change file name
+scipy.sparse.save_npz('pdf10.npz', matrix)
 
 f_list = f_list[2:]
 l = len(f_list)/2
 l = int(l)
 f_list = f_list.reshape([l, 2])
 
-# index need to be changed 
-numpy.savetxt('comm_use_subset_pdf_index.csv', f_list, fmt = '%s', delimiter = ';')
+### change file name
+numpy.savetxt('comm_use_subset_pdf10_index.csv', f_list, fmt = '%s', delimiter = ';')
 
-# transfer to sparse matrix
-matrix_csr = csr_matrix(matrix)
-# transfer to Tfidf matrix
-transformer = TfidfTransformer()
-matrix_tfidf = transformer.fit_transform(matrix_csr)
-# k-means cluster: k in range(1,20)
-for k in range(1, 20):
-    # set up
-    km = KMeans(n_clusters = k)
-    # fit model
-    km.fit(matrix_tfidf)
-    # save model
-    model_name = 'k' + str(k) + '.m'
-    joblib.dump(km, model_name)
