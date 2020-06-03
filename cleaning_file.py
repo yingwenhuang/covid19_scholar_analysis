@@ -1,5 +1,5 @@
 # extract the abstract and body-text text from all json files in a folder
-# clean up before analysis
+# clean up before k-means analysis
 
 import os
 import json
@@ -16,9 +16,10 @@ porter = PorterStemmer()
 d = numpy.empty(1)
 
 # read every json file in the folder
-path_to_json = 'c32/'
+path_to_json = 'CORD-19-research-challenge/arxiv/arxiv/pdf_json/'
 json_files = [jf for jf in os.listdir(path_to_json) if jf.endswith('.json')]
 i = 0
+
 for index, js in enumerate(json_files):
     with open(os.path.join(path_to_json, js)) as f:
         data = json.load(f)
@@ -70,8 +71,8 @@ for index, js in enumerate(json_files):
         d = numpy.unique(d)
     print("\n")
     cleaned_file = cleaned_file[1:]
-    file_name = 'custom_license_pdf32/'+file_name +'.csv'
+    file_name = 'cleaned_file/arxiv/arxiv_pdf/'+file_name +'.csv'
     numpy.savetxt(file_name, cleaned_file, fmt = "%s", delimiter = ';')
     
 d = d[1:]
-numpy.savetxt("pdf32.csv", d, fmt = "%s", delimiter = ';')
+numpy.savetxt("cleaned_file/arxiv/arxiv_vocabulary.csv", d, fmt = "%s", delimiter = ';')
