@@ -2,11 +2,11 @@
 import numpy
 import sklearn
 import scipy
+import joblib
 from scipy import sparse
 from scipy.sparse import csr_matrix
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.cluster import KMeans
-from sklearn.externals import joblib
 
 # read the word count matrix
 matrix = scipy.sparse.load_npz("wordCount/comm_use_subset_wordCount/comm_use_subset_pdf_wordCount.npz")
