@@ -41,4 +41,4 @@ Results: https://github.com/yingwenhuang/covid19_scholar_analysis/tree/master/km
 
 Complete notebook:
 
-https://github.com/yingwenhuang/covid19_scholar_analysis/blob/master/covid19_scholar_report.ipynb
+https://github.com/yingwenhuang/covid19_scholar_analysis/blob/master/covid19_scholar_report%20-%20Jupyter%20Notebook.pdf
